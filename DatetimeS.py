@@ -24,9 +24,10 @@ client_socket, address =s.accept()
 
 #Show the sender is connected
 print(f"[+] {address} is connected")
-
-client_socket.send(bytes("Welcome to the server", "utf-8"))
-
+#Reply to client date and time
+data = client_socket.recv(1024).decode()
+print(data)
+client_socket.send("Current date and time :"+str(datetime.datetime.now()))
 #close client socket
 client_socket.close()
 
