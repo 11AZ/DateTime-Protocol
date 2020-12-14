@@ -1,35 +1,27 @@
+# server.py
 import socket
+import time
 import datetime
-import sys
-#Create server socket
+# create a socket object
+serversocket = socket.socket(
+	        socket.AF_INET, socket.SOCK_STREAM)
 
-s=socket.socket()
-print(f"[+] socket successfully created")
+# get local machine name
+host = socket.gethostname()
 
-#Server host
-host = "192.168.0.101"
-#port
 port = 8888
 
-#bind the socket
-s.bind((host,port))
-print(f"[+] socket binded to" + str(port))
+# bind to the port
+serversocket.bind((host, port))
 
-#Enable socket to accept connection
-s.listen(5)
-print(f"[+] Socket is listening")
+# queue up to 5 requests
+serversocket.listen(5)
 
-#Accept connection
-client_socket, address =s.accept()
+while True:
+    # establish a connection
+    clientsocket,addr = serversocket.accept()
 
-#Show the sender is connected
-print(f"[+] {address} is connected")
-#Reply to client date and time
-data = client_socket.recv(1024).decode()
-print(data)
-client_socket.send("Current date and time :"+str(datetime.datetime.now()))
-#close client socket
-client_socket.close()
-
-#Close server socket
-s.close()
+    print("Got a connection from %s" % str(addr))
+    currentTime = datetime.datetime.now()
+    clientsocket.send(str(currentTime).encode())
+    clientsocket.close()
