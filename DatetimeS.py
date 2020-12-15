@@ -39,15 +39,12 @@ while True:
 	if a == '1':
 		currentTime=datetime.datetime.now().strftime("%A %d %B %Y %H:%M:%S %p")
 		clientsocket.send(str(currentTime).encode())
-		clientsocket.close()
 	elif a == '2':
 		yesterday = datetime.datetime.now() - datetime.timedelta(days = 1)
 		clientsocket.send(str(yesterday.strftime('%A %d %B %Y')).encode())
-		clientsocket.close()
 	elif a == '3':
 		tomor = datetime.datetime.now() + datetime.timedelta(days = 1)
 		clientsocket.send(str(tomor.strftime('%A %d %B %Y')).encode())
-		clientsocket.close()
 	else:
 		print('Input error')
 
