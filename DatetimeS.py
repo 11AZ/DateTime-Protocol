@@ -5,6 +5,7 @@ import datetime
 import tqdm
 from time import sleep
 import sys
+from datetime import timedelta
 # create a socket object
 serversocket = socket.socket()
 
@@ -13,7 +14,7 @@ def typewritter(msg):
 	for char in msg:
 		sys.stdout.write(char)
 		sys.stdout.flush()
-		time.sleep(0.1)
+		time.sleep(0.05)
 
 typewritter("[+] Socket successfully created\n")
 # get local machine name
@@ -28,10 +29,25 @@ typewritter("[+] Socket is listening\n")
 #Waiting for connection from client
 typewritter("[+] Socket is waiting connection from client\n")
 while True:
-    # establish a connection
-    clientsocket,addr = serversocket.accept()
-    clientsocket.send(bytes('Welcome to the server', 'utf-8'))
-    typewritter('Got a connection from %s' % str(addr))
-    currentTime = datetime.datetime.now()
-    clientsocket.send(str(currentTime).encode())
-    clientsocket.close()
+	# establish a connection
+	clientsocket,addr = serversocket.accept()
+	typewritter("[+] Connetion establish\n")
+	#Receive input from client
+	tm = clientsocket.recv(1024)
+	print(tm.decode('utf-8'))
+	a = tm.decode('utf-8')
+	if a == '1':
+		currentTime=datetime.datetime.now().strftime("%A %d %B %Y %H:%M:%S %p")
+		clientsocket.send(str(currentTime).encode())
+		clientsocket.close()
+	elif a == '2':
+		yesterday = datetime.datetime.now() - datetime.timedelta(days = 1)
+		clientsocket.send(str(yesterday.strftime('%A %d %B %Y')).encode())
+		clientsocket.close()
+	elif a == '3':
+		tomor = datetime.datetime.now() + datetime.timedelta(days = 1)
+		clientsocket.send(str(tomor.strftime('%A %d %B %Y')).encode())
+		clientsocket.close()
+	else:
+		print('Input error')
+
