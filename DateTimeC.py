@@ -22,37 +22,54 @@ pbar.close()
 s.connect((host, port))
 print("[+] connected")
 time.sleep(1)
-#whle lopp
-while True:
-	#Front page
-	print('-----------------------WELCOME TO THE DATETIME SERVER-----------------------')
-	print('1-GO TO DATETIME SERVICE')
-	print('bye- TO EXIT THE PROGRAM')
-	a = input('Enter selection:')
-	print(a)
-	#if statement
-	if a == '1':
-		#Datetime Page
-		print('Welcome to the Date time service')
-		print('Enter <1> to check today date and time')
-		print('Enter <2> to check yesterday date')
-		print('Enter <3> to check tommorrow date')
-		print('Enter <99> to exit the program')
-		date = input('Choose what you want: ')
-		if date == '1':
-			s.send(date.encode()) #Send date to server
-			tm = s.recv(36) #Receive time from server
-			print('Today time : %s' % tm.decode('utf-8'))
-		elif date == '2':
-			s.send(date.encode())
-			tmY = s.recv(23) #Receive yesterday date
-			print('Yesterday date :%s'% tmY.decode('utf-8'))
-		elif date == '3':
-			s.send(date.encode())
-			tmT = s.recv(23) #Receive tommorow date
-			print('Tommorrow date : %s' % tmT.decode('utf-8'))
+
+#Front page function
+def fmenu():
+	print("-------------------------------WELCOME TO DATETIME PROGRAM-------------------------")
+	print("|1| Go to date time program")
+	print("|0| Exit the program")
+	while True:
+		opt = input("Enter your choice:")
+		if opt == '1':
+			Datetime()
+		elif opt == '0':
+			break
 		else:
-			print('No input from server')
-	else:
-		print('Error')
+			print("invalid choice")
+			fmenu()
+	sys.exit()
+
+#Date tiem menu
+def Datetime():
+	print("This is a simple date time server")
+	print("[1] To check for today date and time")
+	print("[2] To check for yesterday date")
+	print("[3] To check for tommorrow date")
+	print("[99] to go back to the Main menu")
+	print("[0] to exit the program")
+	while True:
+		sel = input("Enter your choice")
+		if sel == '1':
+			s.send(sel.encode())
+			msg = s.recv(36)
+			print("Today time :%s" % msg.decode('utf-8'))
+		elif sel == '2':
+			s.send(sel.encode())
+			msg = s.recv(23)
+			print("Yesterday date is %s" % msg.decode("utf-8"))
+		elif sel == '3':
+			s.send(sel.encode())
+			msg = s.recv(23)
+			print("Tommorrow date is %s" % msg.decode("utf-8"))
+		elif sel == '99':
+			fmenu()
+		elif sel == '0':
+			sys.exit()
+		else:
+			print("No input from server")
+
+
+
+#Main
+fmenu()
 
