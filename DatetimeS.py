@@ -28,23 +28,23 @@ serversocket.listen(5)
 typewritter("[+] Socket is listening\n")
 #Waiting for connection from client
 typewritter("[+] Socket is waiting connection from client\n")
+
 while True:
 	# establish a connection
 	clientsocket,addr = serversocket.accept()
 	typewritter("[+] Connetion establish\n")
-	#Receive input from client
-	tm = clientsocket.recv(1024)
-	print(tm.decode('utf-8'))
-	a = tm.decode('utf-8')
-	if a == '1':
-		currentTime=datetime.datetime.now().strftime("%A %d %B %Y %H:%M:%S %p")
-		clientsocket.send(str(currentTime).encode())
-	elif a == '2':
-		yesterday = datetime.datetime.now() - datetime.timedelta(days = 1)
-		clientsocket.send(str(yesterday.strftime('%A %d %B %Y')).encode())
-	elif a == '3':
-		tomor = datetime.datetime.now() + datetime.timedelta(days = 1)
-		clientsocket.send(str(tomor.strftime('%A %d %B %Y')).encode())
+	sel = clientsocket.recv(1024).decode('utf-8')
+	if sel == '1':
+		ctime=datetime.datetime.now().strftime('%A %d %B %Y %H:%M:%S %p')
+		clientsocket.send(str(ctime).encode())
+	elif sel == '2':
+		ytime=datetime.datetime.now() - datetime.timedelta(days = 1)
+		clientsocket.send(str(ytime.strftime('%A %d %B %Y')).encode())
+	elif sel == '3':
+		Ttime = datetime.datetime.now() + datetime.timedelta(days = 1)
+		clientsocket.send(str(Ttime.strftime('%A %d %B %Y')).encode())
+	elif sel == '0':
+		clientsocket.close()
 	else:
-		print('Input error')
+		print('Error')
 
