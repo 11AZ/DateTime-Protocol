@@ -4,6 +4,7 @@ from tqdm import tqdm , trange
 import datetime
 import time
 from time import sleep
+import os
 # create a socket object
 s = socket.socket()
 
@@ -28,48 +29,51 @@ def fmenu():
 	print("-------------------------------WELCOME TO DATETIME PROGRAM-------------------------")
 	print("|1| Go to date time program")
 	print("|0| Exit the program")
-	while True:
-		opt = input("Enter your choice:")
-		if opt == '1':
-			Datetime()
-		elif opt == '0':
-			break
-		else:
-			print("invalid choice")
-			fmenu()
-	sys.exit()
+	opt = input("Enter your selection:")
 
+	return opt
 #Date tiem menu
 def Datetime():
 	print("This is a simple date time server")
 	print("[1] To check for today date and time")
 	print("[2] To check for yesterday date")
 	print("[3] To check for tommorrow date")
-	print("[99] to go back to the Main menu")
 	print("[0] to exit the program")
-	while True:
-		sel = input("Enter your choice")
-		if sel == '1':
-			s.send(sel.encode())
-			msg = s.recv(36)
-			print("Today time :%s" % msg.decode('utf-8'))
-		elif sel == '2':
-			s.send(sel.encode())
-			msg = s.recv(23)
-			print("Yesterday date is %s" % msg.decode("utf-8"))
-		elif sel == '3':
-			s.send(sel.encode())
-			msg = s.recv(23)
-			print("Tommorrow date is %s" % msg.decode("utf-8"))
-		elif sel == '99':
-			fmenu()
-		elif sel == '0':
-			sys.exit()
-		else:
-			print("No input from server")
+	sel = input("enter selectij")
 
-
-
+	return sel
 #Main
-fmenu()
+opt = fmenu()
+while opt !=0 :
+	if opt == '1':
+		while opt == '1':
+			sel = Datetime()
+			if sel == '1':
+				os.system('clear')
+				s.send(sel.encode())
+				tm = s.recv(38)
+				print("Time and date is %s" % tm.decode('utf-8'))
+				opt = 0
+			elif sel == '2':
+				s.send(sel.encode())
+				tm = s.recv(38)
+				print("Time and date is %s" % tm.decode('utf-8'))
+				opt = 0
+			elif sel == '3':
+				s.send(sel.encode())
+				tm = s.recv(38)
+				print("Time and date is %s" % tm.decode('utf-8'))
+				opt = 0  
+			elif sel == '0':
+				print("Exit the system")
+				sys.exit()
+
+			else:
+				print("exit program")
+	else:
+		print("exit")
+		sys.exit()
+		clientsocket.close()
+s.close()
+
 
