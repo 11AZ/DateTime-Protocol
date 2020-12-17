@@ -43,37 +43,51 @@ def Datetime():
 
 	return sel
 #Main
-opt = fmenu()
-while opt !=0 :
-	if opt == '1':
-		while opt == '1':
+while True:
+	opt = fmenu()
+	loop = 1
+	while loop == 1:
+		if opt == '1':
+			os.system('clear')
 			sel = Datetime()
 			if sel == '1':
 				os.system('clear')
 				s.send(sel.encode())
 				tm = s.recv(38)
 				print("Time and date is %s" % tm.decode('utf-8'))
-				opt = 0
+				a= input("Enter 1")
+				if a == '1':
+					loop = 1
+				else:
+					sys.exit()
 			elif sel == '2':
+				os.system('clear')
 				s.send(sel.encode())
 				tm = s.recv(38)
 				print("Time and date is %s" % tm.decode('utf-8'))
-				opt = 0
+				a = input("enter 1 to back||Enter 0 to exit")
+				if a == '1':
+					loop = 1
+				else:
+					sys.exit()
 			elif sel == '3':
+				os.system('clear')
 				s.send(sel.encode())
 				tm = s.recv(38)
 				print("Time and date is %s" % tm.decode('utf-8'))
-				opt = 0  
+				a = input("Enter 1 to back||Enter 0 to exit")
+				if a == '1':
+					loop = 1
+				else:
+					sys.exit()
 			elif sel == '0':
 				print("Exit the system")
 				sys.exit()
-
-			else:
-				print("exit program")
-	else:
-		print("exit")
-		sys.exit()
-		clientsocket.close()
+		else:
+			print("exit")
+			sys.exit()
+			clientsocket.close()
+	print("Exit the system")
 s.close()
 
 
