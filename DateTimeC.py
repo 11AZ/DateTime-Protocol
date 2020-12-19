@@ -6,21 +6,25 @@ import time
 from time import sleep
 import os
 # create a socket object
-s = socket.socket()
+c = socket.socket()
 
 # get local server machine name
 host = "192.168.0.101"
 
 port = 8888
 # connection to hostname on the port.
-print(f"[+] Connecting to {host}:{port}")
+try:
+	print(f"[+] Connecting to {host}:{port}")
+except socket.error as e:
+	print(str(e))
+
 #Progress bar
 pbar = tqdm(total=100)
 for i in range(10):
     time.sleep(0.3)
     pbar.update(10)
 pbar.close()
-s.connect((host, port))
+c.connect((host, port))
 print("[+] connected")
 time.sleep(1)
 
@@ -28,7 +32,6 @@ time.sleep(1)
 def fmenu():
 	print("-------------------------------WELCOME TO DATETIME PROGRAM-------------------------")
 	print("|1| Go to date time program")
-	print("|0| Exit the program")
 	opt = input("Enter your selection:")
 
 	return opt
@@ -39,10 +42,11 @@ def Datetime():
 	print("[2] To check for yesterday date")
 	print("[3] To check for tommorrow date")
 	print("[0] to exit the program")
-	sel = input("enter selectij")
+	sel = input("Please select your choice :")
 
 	return sel
 #Main
+os.system('clear')
 while True:
 	opt = fmenu()
 	loop = 1
@@ -52,32 +56,34 @@ while True:
 			sel = Datetime()
 			if sel == '1':
 				os.system('clear')
-				s.send(sel.encode())
-				tm = s.recv(38)
+				c.send(sel.encode())
+				tm = c.recv(38)
 				print("Time and date is %s" % tm.decode('utf-8'))
-				a= input("Enter 1")
+				a = input("Enter 1 go back|| Enter 0 to exit")
 				if a == '1':
 					loop = 1
 				else:
 					sys.exit()
 			elif sel == '2':
 				os.system('clear')
-				s.send(sel.encode())
-				tm = s.recv(38)
+				c.send(sel.encode())
+				tm = c.recv(38)
 				print("Time and date is %s" % tm.decode('utf-8'))
 				a = input("enter 1 to back||Enter 0 to exit")
 				if a == '1':
 					loop = 1
 				else:
 					sys.exit()
+					c.close()
 			elif sel == '3':
 				os.system('clear')
-				s.send(sel.encode())
-				tm = s.recv(38)
+				c.send(sel.encode())
+				tm = c.recv(38)
 				print("Time and date is %s" % tm.decode('utf-8'))
 				a = input("Enter 1 to back||Enter 0 to exit")
 				if a == '1':
 					loop = 1
+					c.close()
 				else:
 					sys.exit()
 			elif sel == '0':
@@ -88,6 +94,6 @@ while True:
 			sys.exit()
 			clientsocket.close()
 	print("Exit the system")
-s.close()
+c.close()
 
 
